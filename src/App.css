@@ -1,0 +1,27 @@
+.App {
+    display: grid;
+
+    grid-template-areas:
+    "h h"
+    "n c";
+
+    grid-template-rows: 70px 1fr;
+    grid-template-columns: 3fr 10fr;
+    background-color: burlywood;
+    margin: 0 auto;
+
+    max-width: 1400px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0 auto;
+}
+
+.app-wrapper-content {
+    grid-area: c;
+    background-color: #b2b2b2;
+}
+
+.item a.activeLink {
+    color: #a40322;
+}

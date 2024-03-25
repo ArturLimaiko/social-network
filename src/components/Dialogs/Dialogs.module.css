@@ -1,0 +1,35 @@
+h3 {
+    display: flex;
+    justify-content: center;
+}
+
+.dialogs__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.dialogs {
+
+}
+
+.dialogs-items {
+
+}
+
+.item a {
+    font-size: 20px;
+
+}
+
+.item.active {
+    color: darkgoldenrod;
+}
+
+.messages {
+
+}
+
+.message {
+
+}

@@ -1,0 +1,23 @@
+.nav {
+    grid-area: n;
+    background-color: #61866b;
+    padding: 20px;
+}
+
+.nav__list {
+list-style-type: none;
+}
+
+a {
+    font-size: 25px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav__item {
+    margin: 25px 0 25px 0;
+}
+
+.nav__activeLink {
+    color: darkgoldenrod;
+}
