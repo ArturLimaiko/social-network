@@ -2,16 +2,13 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
 
-export const MyPosts = () => {
+ export type PostPropsType = {
+     posts: { id: number, message: string, likesCount: number}[]
+ }
 
-    const PostData = [
-        {message: 'Hi , how are you?', likesCount: 20},
-        {message: 'Its my first post', likesCount: 54},
-        {message: 'Its my first post', likesCount: 54},
-        {message: 'Its my first post', likesCount: 54}
-    ]
+export const MyPosts:React.FC<PostPropsType> = ({posts}) => {
 
-    const postsElements = PostData.map((p => <Post message={p.message} likesCount={p.likesCount}/>))
+    const postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
 
     return (
         <div className={s.postsBlock}>
@@ -20,7 +17,7 @@ export const MyPosts = () => {
                 <textarea> </textarea>
             </div>
             <div>
-                <button>button</button>
+                <button>Add Post</button>
             </div>
             <div className={s.posts}>
                 {postsElements}

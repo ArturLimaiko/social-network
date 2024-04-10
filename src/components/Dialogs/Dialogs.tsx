@@ -3,33 +3,15 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Messages} from "./Messages/Messages";
 
-export const Dialogs = () => {
+type DialogsDataType = {
+    dialogs: { name: string, id: number }[]
+    messages: { message: string, id: number }[]
+}
 
-
-    let DialogsData = [
-        {name: 'Valera', id: 1},
-        {name: 'Tamara', id: 2},
-        {name: 'Asya', id: 3},
-        {name: 'Katya', id: 4},
-        {name: 'Kolya', id: 5},
-        {name: 'Maks', id: 6}
-    ]
-
-    let messages = [
-        {message: 'How are You?'},
-        {message:'What you doing in wednesday?' },
-        {message: 'How are You?'},
-        {message: 'What you doing in wednesday'},
-        {message: 'What are you doing?'},
-        {message: 'How are You??'},
-
-    ]
-
-    const dialogsElements = DialogsData.map( d => <DialogItem name={d.name} id={d.id}/>)
-
-    const messagesElements = messages.map( m => <Messages message={m.message}/>
+export const Dialogs: React.FC<DialogsDataType> = ({dialogs, messages}) => {
+    const dialogsElements = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    const messagesElements = messages.map(m => <Messages message={m.message}/>
     )
-
     return (
         <>
             <h3>Dialogs</h3>
