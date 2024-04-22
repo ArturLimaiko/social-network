@@ -2,34 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {State} from "./components/Redux/State";
+//1 отсюда вынесем отдельный файл state, это будет объект с массивами.
+// его прокинем в index tsx. а далее через пропсы в другие кеомпоненты
+//2 разбить state на подобъекты
+//3 протипизировать стейт
+//4 создать блок слева под settings - блок Friends, и так же добавить его в state - sitebar как отдельную ветку
 
-let posts = [
-    {id: 1, message: 'Hi , how are you?', likesCount: 20},
-    {id: 2, message: 'Its my first post', likesCount: 54},
-    {id: 3, message: 'Its my first post', likesCount: 54},
-    {id: 4, message: 'Its my first post', likesCount: 54}
-]
 
-let DialogsData = [
-    {name: 'Valera', id: 1},
-    {name: 'Tamara', id: 2},
-    {name: 'Asya', id: 3},
-    {name: 'Katya', id: 4},
-    {name: 'Kolya', id: 5},
-    {name: 'Maks', id: 6}
-]
-
-let messages = [
-    {id: 1, message: 'How are You?'},
-    {id: 2, message: 'What you doing in wednesday?'},
-    {id: 3, message: 'How are You?'},
-    {id: 4, message: 'What you doing in wednesday'},
-    {id: 5, message: 'What are you doing?'},
-    {id: 6, message: 'How are You??'},
-
-]
 
 ReactDOM.render(
-    <App posts={posts} dialogs={DialogsData} messages={messages}/>,
+    <App state={State}/>,
     document.getElementById('root')
 );
