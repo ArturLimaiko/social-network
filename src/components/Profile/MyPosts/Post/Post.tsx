@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Post.module.css';
 
-export const Post = (props: any) => {
+export const Post = (props:any) => {
     return (
         <div className={s.content}>
             <div className={s.item}>
