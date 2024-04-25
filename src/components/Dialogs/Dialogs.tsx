@@ -9,10 +9,16 @@ type DialogsPropsType = {
     message: messageType[]
 }
 
-export const Dialogs:React.FC<DialogsPropsType> = ({dialogs,message}) => {
+export const Dialogs: React.FC<DialogsPropsType> = ({dialogs, message}) => {
     const dialogsElements = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    const messagesElements = message.map(m => <Messages message={m.message}/>
-    )
+    const messagesElements = message.map(m => <Messages message={m.message}/>)
+
+    let refMessage = React.createRef<HTMLTextAreaElement>()
+    const callBackAddMessage = () => {
+        let message = refMessage.current?.value
+        alert(message)
+    }
+
     return (
         <>
             <h3>Dialogs</h3>
@@ -22,6 +28,11 @@ export const Dialogs:React.FC<DialogsPropsType> = ({dialogs,message}) => {
                 </div>
                 <div className={s.messages}>
                     {messagesElements}
+                    <div>
+                        <textarea ref={refMessage}></textarea>
+                    </div>
+                    <button onClick={callBackAddMessage}>Add Message</button>
+
                 </div>
             </div>
         </>
