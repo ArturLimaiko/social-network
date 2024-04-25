@@ -1,0 +1,25 @@
+.friends__wrapp {
+    margin-top: 40px;
+}
+
+.friends__title,
+.friends__name,
+.friends__age  {
+    color: #ffffff;
+}
+
+.friends__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0 0 0 ;
+    padding: 0;
+}
+
+.friends__item {
+    list-style-type: none;
+}
+
+.friends__avatar {
+    border-radius: 50%;
+}

@@ -1,8 +1,11 @@
 import React from 'react';
 import s from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
+import {Friends} from "../Friends/Friends";
+import {state} from "../../Redux/state";
 
-export const  Navbar = () => {
+
+export const Navbar = () => {
 
     const getClassName = (isActive: boolean) => {
         return isActive ? s.nav__activeLink : s.nav__item
@@ -11,24 +14,29 @@ export const  Navbar = () => {
     return (
         <nav className={s.nav}>
             <li className={s.nav__list}>
-                <NavLink to={'/profile'} >Profile</NavLink>
+                <NavLink to={'/profile'}>Profile</NavLink>
             </li>
 
             <li className={s.nav__list}>
-                <NavLink to={'/dialogs'} >Messages</NavLink>
+                <NavLink to={'/dialogs'}>Messages</NavLink>
             </li>
 
             <li className={s.nav__list}>
-                <NavLink to={'/news'} >News</NavLink>
+                <NavLink to={'/news'}>News</NavLink>
             </li>
 
             <li className={s.nav__list}>
-                <NavLink to={'/music'} >Music</NavLink>
+                <NavLink to={'/music'}>Music</NavLink>
             </li>
 
             <li className={s.nav__list}>
                 <NavLink to={'/settings'}>Settings</NavLink>
             </li>
+
+            <li className={s.nav__list}>
+                <Friends friends={state.SideBar.friends}/>
+            </li>
+
 
             {/*<li className={s.nav__list}>*/}
             {/*    <NavLink to={'/profile'} className={({isActive}) => getClassName(isActive)}>Profile</NavLink>*/}

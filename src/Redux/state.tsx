@@ -14,6 +14,7 @@ export type postsType = {
 export type friendsType ={
     id: number
     friendName: string
+    age: number
 }
 export type DialogsPageType = {
     dialogs: dialogsType[]
@@ -22,7 +23,7 @@ export type DialogsPageType = {
 export type ProfilePageType = {
     posts: postsType[]
 }
-type SideBarType = {
+export type SideBarType = {
     friends: friendsType[]
 }
 export type StateType = {
@@ -64,11 +65,11 @@ export let state: StateType = {
     },
     SideBar: {
         friends: [
-            {id:1, friendName: 'Gena'},
-            {id:2, friendName: 'Alla'},
-            {id:3, friendName: 'Katya'},
-            {id:4, friendName: 'Marina'},
-            {id:5, friendName: 'Valera'},
+            {id:1, friendName: 'Gena', age: 20},
+            {id:2, friendName: 'Alla', age: 12},
+            {id:3, friendName: 'Katya', age: 54},
+            {id:4, friendName: 'Marina', age: 33},
+            {id:5, friendName: 'Valera', age: 55},
         ]
     }
 }
