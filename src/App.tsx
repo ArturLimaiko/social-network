@@ -11,10 +11,11 @@ import {Settings} from "./components/Settings/Settings";
 import {StateType} from "./Redux/state";
 
 type Props = {
-    state:StateType
+    state: StateType
+    addMessage: (newPostMessage: string) => void
 }
 
-function App({state}:Props) {
+function App({state, addMessage}: Props) {
 
     return (
         // BrowserRouter - компонент который контролит страницы(переход по ссылкам) . по этому оборачиваем все им
@@ -24,8 +25,10 @@ function App({state}:Props) {
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     {/*Route следит за страницей например dialogs,profile и тд*/}
-                    <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs} message={state.DialogsPage.message} />}/>
-                    <Route path='/profile' render={() => <Profile posts={state.ProfilePage.posts}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs}
+                                                                  message={state.DialogsPage.message}/>}/>
+                    <Route path='/profile'
+                           render={() => <Profile posts={state.ProfilePage.posts} addMessage={addMessage}/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>

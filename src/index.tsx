@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {state} from "./Redux/state";
+import {addMessage} from "./Redux/state";
 
-
-ReactDOM.render(<App state={state}/>, document.getElementById('root'));
+ReactDOM.render(<App state={state} addMessage={addMessage}/>, document.getElementById('root'));
