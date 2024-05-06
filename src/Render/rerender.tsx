@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "../App";
-import {addMessage, StateType, updateNewPostText,} from "../Redux/state";
+import {addMessage, StateType, updateNewPostText} from "../Redux/state";
 
 
 export const rerenderEntireThree = (state: StateType) => {

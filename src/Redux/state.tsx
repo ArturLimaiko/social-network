@@ -87,7 +87,7 @@ export let state: StateType = {
 export const addMessage = () => {
     let newMessage = {id: 12, message: state.ProfilePage.newPostText, likesCount: 0}
     state.ProfilePage.posts.push(newMessage);
-    state.ProfilePage.newPostText = ''
+    state.ProfilePage.newPostText = '';
     rerenderEntireThree(state);
 }
 

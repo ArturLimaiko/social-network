@@ -7,9 +7,11 @@ export type MyPostPropsType = {
     posts: postsType[]
     addMessage: (newPostMessage: string) => void
     updateNewPostText: (newText: string) => void
+    newPostText: string
+
 }
 
-export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNewPostText}) => {
+export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNewPostText,newPostText}) => {
     const postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
     let refElement = React.createRef<HTMLTextAreaElement>()
 
@@ -36,7 +38,7 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNew
         <div className={s.postsBlock}>
             <h3> My posts </h3>
             <div>
-                <textarea ref={refElement} onChange={onPostChange}/>
+                <textarea ref={refElement} onChange={onPostChange} value={newPostText}/>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>

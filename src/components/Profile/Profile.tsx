@@ -7,13 +7,14 @@ type ProfilePropsType = {
     posts: postsType[]
     addMessage: (newPostMessage: string) => void
     updateNewPostText: (newText: string) => void
+    newPostText: string
 }
 
-export const Profile: React.FC<ProfilePropsType> = ({posts, addMessage,updateNewPostText}) => {
+export const Profile: React.FC<ProfilePropsType> = ({posts, addMessage,updateNewPostText,newPostText}) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={posts} addMessage={addMessage} updateNewPostText={updateNewPostText}/>
+            <MyPosts posts={posts} addMessage={addMessage} updateNewPostText={updateNewPostText} newPostText={newPostText}/>
         </div>
     );
 };

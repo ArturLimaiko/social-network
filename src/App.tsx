@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StateType, updateNewPostText} from "./Redux/state";
+import {StateType} from "./Redux/state";
 
 type Props = {
     state: StateType
@@ -16,7 +16,7 @@ type Props = {
     updateNewPostText: (newText: string) => void
 }
 
-function App({state, addMessage}: Props) {
+function App({state, addMessage,updateNewPostText}: Props) {
 
     return (
         // BrowserRouter - компонент который контролит страницы(переход по ссылкам) . по этому оборачиваем все им
@@ -29,7 +29,7 @@ function App({state, addMessage}: Props) {
                     <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs}
                                                                   message={state.DialogsPage.message}/>}/>
                     <Route path='/profile'
-                           render={() => <Profile posts={state.ProfilePage.posts} addMessage={addMessage} updateNewPostText={updateNewPostText}/>}/>
+                           render={() => <Profile posts={state.ProfilePage.posts} addMessage={addMessage} updateNewPostText={updateNewPostText} newPostText={state.ProfilePage.newPostText}/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>
