@@ -6,13 +6,14 @@ import {postsType} from "../../Redux/state";
 type ProfilePropsType = {
     posts: postsType[]
     addMessage: (newPostMessage: string) => void
+    updateNewPostText: (newText: string) => void
 }
 
-export const Profile: React.FC<ProfilePropsType> = ({posts, addMessage}) => {
+export const Profile: React.FC<ProfilePropsType> = ({posts, addMessage,updateNewPostText}) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts posts={posts} addMessage={addMessage}/>
+            <MyPosts posts={posts} addMessage={addMessage} updateNewPostText={updateNewPostText}/>
         </div>
     );
 };

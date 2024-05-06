@@ -24,6 +24,7 @@ export type DialogsPageType = {
 }
 export type ProfilePageType = {
     posts: postsType[]
+    newPostText: string
 }
 export type SideBarType = {
     friends: friendsType[]
@@ -63,7 +64,8 @@ export let state: StateType = {
             {id: 6, message: 'Its my first post2', likesCount: 32},
             {id: 7, message: 'Its my first post3', likesCount: 15},
             {id: 8, message: 'Its my first post4', likesCount: 982},
-        ]
+        ],
+        newPostText: 'new post'
     },
     SideBar: {
         friends: [
@@ -82,9 +84,21 @@ export let state: StateType = {
 // внутри эта функция добавляет сообщение в posts новый объект который мы же и создаем.
 // далее импортим функцию в index и потом прокидываем ее через пропсы дальше в app в profile =>
 // My posts и в нем вызываем эту функцию в функции addPost
-export const addMessage = (newPostMessage: string) => {
-    let newMessage = {id: 12, message: newPostMessage, likesCount: 0}
-    state.ProfilePage.posts.push(newMessage)
-    rerenderEntireThree(state)
+export const addMessage = () => {
+    let newMessage = {id: 12, message: state.ProfilePage.newPostText, likesCount: 0}
+    state.ProfilePage.posts.push(newMessage);
+    state.ProfilePage.newPostText = ''
+    rerenderEntireThree(state);
 }
 
+//  в ProfilePage добавить новый объект newPostText: 'new post' ,
+// затем его нужно прокинуть в app => profile => myposts
+
+//создать функцию updateNewPostText приходит одно значение newText - который к нам приходит.
+// внутри функции находим в стейте значение newPostText и приравниваем ему значение newText
+// дальше перерисовываем все дерево. rerenderEntireThree(state)
+// ее далее прокидываем вниз через пропсы в MyPosts и вызываем ее в onPostChange
+export  const updateNewPostText = (newText: string) => {
+    state.ProfilePage.newPostText = newText
+    rerenderEntireThree(state)
+}
