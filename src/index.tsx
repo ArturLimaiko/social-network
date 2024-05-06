@@ -1,13 +1,21 @@
+import React from 'react';
 import './index.css';
-import {state} from "./Redux/state";
-import {rerenderEntireThree} from "./Render/rerender";
+import ReactDOM from 'react-dom';
+import App from "./App";
+import {addMessage, state, updateNewPostText,subscribe} from "./Redux/state";
+
+let rerenderEntireThree = () => {
+    ReactDOM.render(<App state={state} addMessage={addMessage} updateNewPostText={updateNewPostText}/>, document.getElementById('root'));
+};
+
+rerenderEntireThree();
+
+subscribe(rerenderEntireThree)
 
 
-// //создадим файлик render tsx.
-// // внутри будет функция rerenderEntireThree которая будет отрисоывать все что ниже ,
-// // внутри в параметрах принимает state.
-//
-//
-// ReactDOM.render(<App state={state} addMessage={addMessage}/>, document.getElementById('root'));
-
-rerenderEntireThree(state);
+// переносим обратно в index.tsx все( export удалить)
+// стейт внутри параметров тоже удаляем, т.к стейт импортим из redux/state
+// в state tsx создадим функцию subscribe() {}  в нее передадим 1 параметр observer
+// subscribe импортим в index и внутрь него кладем rerenderEntireThree ( передаем колбек в стейт)
+// в state будем ее использовать
+//внутри subscribe функцию rerenderEntireThree = observer (приравниваем к функции)
