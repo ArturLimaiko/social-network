@@ -1,3 +1,5 @@
+import {rerenderEntireThree} from "../Render/rerender";
+
 export type dialogsType = {
     name: string
     id: number
@@ -83,5 +85,6 @@ export let state: StateType = {
 export const addMessage = (newPostMessage: string) => {
     let newMessage = {id: 12, message: newPostMessage, likesCount: 0}
     state.ProfilePage.posts.push(newMessage)
+    rerenderEntireThree(state)
 }
 

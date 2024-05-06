@@ -20,6 +20,7 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage}) => {
         if (refElement.current) {
             let text = refElement.current.value
             addMessage(text)
+            refElement.current.value = ''
         }
     }
 

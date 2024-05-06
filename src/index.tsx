@@ -1,8 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import {state} from "./Redux/state";
-import {addMessage} from "./Redux/state";
+import {rerenderEntireThree} from "./Render/rerender";
 
-ReactDOM.render(<App state={state} addMessage={addMessage}/>, document.getElementById('root'));
+
+// //создадим файлик render tsx.
+// // внутри будет функция rerenderEntireThree которая будет отрисоывать все что ниже ,
+// // внутри в параметрах принимает state.
+//
+//
+// ReactDOM.render(<App state={state} addMessage={addMessage}/>, document.getElementById('root'));
+
+rerenderEntireThree(state);
