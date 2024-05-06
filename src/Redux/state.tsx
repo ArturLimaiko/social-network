@@ -74,13 +74,14 @@ export let state: StateType = {
     }
 }
 
-export const addMessage = (newPostMessage: string) => {
-    let newMessage = {id: 12, message: newPostMessage, likesCount: 0}
-    state.ProfilePage.posts.push(newMessage)
-}
 
 // создадим функцию с помощью которой получаем текст сообщения поста.
 // у функции 1 параметр - newPostMessage - например. это будет сообщение новое
 // внутри эта функция добавляет сообщение в posts новый объект который мы же и создаем.
 // далее импортим функцию в index и потом прокидываем ее через пропсы дальше в app в profile =>
 // My posts и в нем вызываем эту функцию в функции addPost
+export const addMessage = (newPostMessage: string) => {
+    let newMessage = {id: 12, message: newPostMessage, likesCount: 0}
+    state.ProfilePage.posts.push(newMessage)
+}
+

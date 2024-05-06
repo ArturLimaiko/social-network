@@ -12,6 +12,10 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage}) => {
     const postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
     let refElement = React.createRef<HTMLTextAreaElement>()
 
+
+    // Проверка, что refElement.current существует (не равен null или undefined).
+    // Если refElement.current существует, извлекается значение (value) из текущего элемента.
+    // Полученный текст передается в функцию addMessage, вероятно, для добавления сообщения или обработки этого текста.
     const callBack = () => {
         if (refElement.current) {
             let text = refElement.current.value
