@@ -1,7 +1,3 @@
-let rerenderEntireThree = () => {
-    console.log('State changed')
-}
-
 export type dialogsType = {
     name: string
     id: number
@@ -37,60 +33,92 @@ export type StateType = {
     SideBar: SideBarType
 }
 
-export let state: StateType = {
-    DialogsPage: {
-        dialogs: [
-            {name: 'Valera', id: 1},
-            {name: 'Tamara', id: 2},
-            {name: 'Asya', id: 3},
-            {name: 'Katya', id: 4},
-            {name: 'Kolya', id: 5},
-            {name: 'Maks', id: 6}
-        ],
-        message: [
-            {id: 1, message: 'How are You?'},
-            {id: 2, message: 'What you doing in wednesday?'},
-            {id: 3, message: 'How are You?'},
-            {id: 4, message: 'What you doing in wednesday'},
-            {id: 5, message: 'What are you doing?'},
-            {id: 6, message: 'How are You??'},
-        ]
+
+// кто то вызывает эту функцию  - в нее приходит функция observer
+// присваиваем rerenderEntireThree функции observer, по сколько она не приходит в параметрах , и не объявляется внутри ,
+// выпрыгивает наверх из функции - так работает замыкание - и ищем в глобальном по отношению к этой родительском скоупе
+// ищем эту функцию rerenderEntireThree, находим и присваиваем observer(теперь она ссылается на нее)
+// в subscribe к нам приходит в параметрах как раз она и далее грубо говоря мы эту функцию отдаем в мир index.tsx
+// observer - Паттерн, (наблюдатеть - в нашем случае)
+
+
+//lesson 37 store-state
+// создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
+//  так же state делаем приватным _state
+// rerenderEntireThree,addMessage,updateNewPostText сделаем методом  store
+// не забудем написать export store,в index экспортнем store + поправим типизацию в компоненте App
+// напряму вот так нельзя обращаться - <App state={store._state} потому что он является приватный метод стора , к нему
+// по правилам нельзя так обращаться. для этого создадим спец метод который будет возвращать нам state
+// getState() { return _state} и в App вместо state={store._state} пишем state={store.getState()}
+// + там где метод подсвечивает ошибку нужно заменить на return this._state ( ругается потому что такое переменной нет,
+// так как _state это свойство объекта (либо методу) store, и к свойству мы должны обращаться через this
+// на этом примере нужно везде добавить this.
+// заменим имя функции rerenderEntireThree на _callSubscriber
+// далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
+// так же проделать с другой функцией
+
+
+export let store = {
+    _state: {
+        DialogsPage: {
+            dialogs: [
+                {name: 'Valera', id: 1},
+                {name: 'Tamara', id: 2},
+                {name: 'Asya', id: 3},
+                {name: 'Katya', id: 4},
+                {name: 'Kolya', id: 5},
+                {name: 'Maks', id: 6}
+            ],
+            message: [
+                {id: 1, message: 'How are You?'},
+                {id: 2, message: 'What you doing in wednesday?'},
+                {id: 3, message: 'How are You?'},
+                {id: 4, message: 'What you doing in wednesday'},
+                {id: 5, message: 'What are you doing?'},
+                {id: 6, message: 'How are You??'},
+            ]
+        },
+        ProfilePage: {
+            posts: [
+                {id: 1, message: 'Hi , how are you?', likesCount: 20},
+                {id: 2, message: 'Its my first post', likesCount: 54},
+                {id: 3, message: 'Its my first post', likesCount: 54},
+                {id: 4, message: 'Its my first post43', likesCount: 524},
+                {id: 5, message: 'Its my first post1', likesCount: 22},
+                {id: 6, message: 'Its my first post2', likesCount: 32},
+                {id: 7, message: 'Its my first post3', likesCount: 15},
+                {id: 8, message: 'Its my first post4', likesCount: 982},
+            ],
+            newPostText: 'new post'
+        },
+        SideBar: {
+            friends: [
+                {id: 1, friendName: 'Gena', age: 20},
+                {id: 2, friendName: 'Alla', age: 12},
+                {id: 3, friendName: 'Katya', age: 54},
+                {id: 4, friendName: 'Marina', age: 33},
+                {id: 5, friendName: 'Valera', age: 55},
+            ]
+        },
     },
-    ProfilePage: {
-        posts: [
-            {id: 1, message: 'Hi , how are you?', likesCount: 20},
-            {id: 2, message: 'Its my first post', likesCount: 54},
-            {id: 3, message: 'Its my first post', likesCount: 54},
-            {id: 4, message: 'Its my first post43', likesCount: 524},
-            {id: 5, message: 'Its my first post1', likesCount: 22},
-            {id: 6, message: 'Its my first post2', likesCount: 32},
-            {id: 7, message: 'Its my first post3', likesCount: 15},
-            {id: 8, message: 'Its my first post4', likesCount: 982},
-        ],
-        newPostText: 'new post'
+    getState() {
+        return this._state
     },
-    SideBar: {
-        friends: [
-            {id: 1, friendName: 'Gena', age: 20},
-            {id: 2, friendName: 'Alla', age: 12},
-            {id: 3, friendName: 'Katya', age: 54},
-            {id: 4, friendName: 'Marina', age: 33},
-            {id: 5, friendName: 'Valera', age: 55},
-        ]
+    addMessage() {
+        let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
+        this._state.ProfilePage.posts.push(newMessage);
+        this._state.ProfilePage.newPostText = '';
+        this._callSubscriber();
+    },
+    updateNewPostText(newText: string) {
+        this._state.ProfilePage.newPostText = newText
+        this._callSubscriber()
+    },
+    _callSubscriber() {
+        console.log('State changed')
+    },
+    subscribe(observer: () => void) {
+        this._callSubscriber = observer;
     }
-}
 
-export const addMessage = () => {
-    let newMessage = {id: 12, message: state.ProfilePage.newPostText, likesCount: 0}
-    state.ProfilePage.posts.push(newMessage);
-    state.ProfilePage.newPostText = '';
-    rerenderEntireThree();
-}
-export  const updateNewPostText = (newText: string) => {
-    state.ProfilePage.newPostText = newText
-    rerenderEntireThree()
-}
-
-export const subscribe = (observer: ()=>void) => {
-    rerenderEntireThree = observer;
 }

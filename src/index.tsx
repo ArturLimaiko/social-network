@@ -2,10 +2,13 @@ import React from 'react';
 import './index.css';
 import ReactDOM from 'react-dom';
 import App from "./App";
-import {addMessage, state, updateNewPostText,subscribe} from "./Redux/state";
+import {store, subscribe} from "./Redux/state";
 
 let rerenderEntireThree = () => {
-    ReactDOM.render(<App state={state} addMessage={addMessage} updateNewPostText={updateNewPostText}/>, document.getElementById('root'));
+    ReactDOM.render(<App state={store.getState()}
+                         addMessage={store.addMessage.bind(store)}
+                         updateNewPostText={store.updateNewPostText.bind(store)
+                         }/>, document.getElementById('root'));
 };
 
 rerenderEntireThree();
