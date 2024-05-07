@@ -33,32 +33,16 @@ export type StateType = {
     SideBar: SideBarType
 }
 
+export type StoreType = {
+    _state: StateType
+    updateNewPostText: (newText: string) => void
+    addMessage: () => void
+    _callSubscriber: () => void
+    subscribe: (observer: () => void) => void
+    getState: () => StateType
+}
 
-// кто то вызывает эту функцию  - в нее приходит функция observer
-// присваиваем rerenderEntireThree функции observer, по сколько она не приходит в параметрах , и не объявляется внутри ,
-// выпрыгивает наверх из функции - так работает замыкание - и ищем в глобальном по отношению к этой родительском скоупе
-// ищем эту функцию rerenderEntireThree, находим и присваиваем observer(теперь она ссылается на нее)
-// в subscribe к нам приходит в параметрах как раз она и далее грубо говоря мы эту функцию отдаем в мир index.tsx
-// observer - Паттерн, (наблюдатеть - в нашем случае)
-
-
-//lesson 37 store-state
-// создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
-//  так же state делаем приватным _state
-// rerenderEntireThree,addMessage,updateNewPostText сделаем методом  store
-// не забудем написать export store,в index экспортнем store + поправим типизацию в компоненте App
-// напряму вот так нельзя обращаться - <App state={store._state} потому что он является приватный метод стора , к нему
-// по правилам нельзя так обращаться. для этого создадим спец метод который будет возвращать нам state
-// getState() { return _state} и в App вместо state={store._state} пишем state={store.getState()}
-// + там где метод подсвечивает ошибку нужно заменить на return this._state ( ругается потому что такое переменной нет,
-// так как _state это свойство объекта (либо методу) store, и к свойству мы должны обращаться через this
-// на этом примере нужно везде добавить this.
-// заменим имя функции rerenderEntireThree на _callSubscriber
-// далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
-// так же проделать с другой функцией
-
-
-export let store = {
+export let store: StoreType = {
     _state: {
         DialogsPage: {
             dialogs: [
@@ -89,7 +73,7 @@ export let store = {
                 {id: 7, message: 'Its my first post3', likesCount: 15},
                 {id: 8, message: 'Its my first post4', likesCount: 982},
             ],
-            newPostText: 'new post'
+            newPostText: ''
         },
         SideBar: {
             friends: [
@@ -101,7 +85,7 @@ export let store = {
             ]
         },
     },
-    getState() {
+    getState () {
         return this._state
     },
     addMessage() {
@@ -117,8 +101,23 @@ export let store = {
     _callSubscriber() {
         console.log('State changed')
     },
-    subscribe(observer: () => void) {
+    subscribe(observer) {
         this._callSubscriber = observer;
-    }
-
+    },
 }
+
+
+//lesson 37 store-state
+// создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
+//  так же state делаем приватным _state
+// rerenderEntireThree,addMessage,updateNewPostText сделаем методом  store
+// не забудем написать export store,в index экспортнем store + поправим типизацию в компоненте App
+// напряму вот так нельзя обращаться - <App state={store._state} потому что он является приватный метод стора , к нему
+// по правилам нельзя так обращаться. для этого создадим спец метод который будет возвращать нам state
+// getState() { return _state} и в App вместо state={store._state} пишем state={store.getState()}
+// + там где метод подсвечивает ошибку нужно заменить на return this._state ( ругается потому что такое переменной нет,
+// так как _state это свойство объекта (либо методу) store, и к свойству мы должны обращаться через this
+// на этом примере нужно везде добавить this.
+// заменим имя функции rerenderEntireThree на _callSubscriber
+// далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
+// так же проделать с другой функцией

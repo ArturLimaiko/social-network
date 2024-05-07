@@ -2,10 +2,13 @@ import React from 'react';
 import s from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 import {Friends} from "../Friends/Friends";
-import {state} from "../../Redux/state";
+import {friendsType} from "../../Redux/state";
 
+type NavbarType = {
+    friends: friendsType[]
+}
 
-export const Navbar = () => {
+export const Navbar: React.FC<NavbarType> = ({friends}) => {
 
     const getClassName = (isActive: boolean) => {
         return isActive ? s.nav__activeLink : s.nav__item
@@ -34,7 +37,7 @@ export const Navbar = () => {
             </li>
 
             <li className={s.nav__list}>
-                <Friends friends={state.SideBar.friends}/>
+                <Friends friends={friends}/>
             </li>
 
 

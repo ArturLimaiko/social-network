@@ -2,18 +2,16 @@ import React from 'react';
 import './index.css';
 import ReactDOM from 'react-dom';
 import App from "./App";
-import {store, subscribe} from "./Redux/state";
+import {store} from "./Redux/state";
 
-let rerenderEntireThree = () => {
-    ReactDOM.render(<App state={store.getState()}
-                         addMessage={store.addMessage.bind(store)}
-                         updateNewPostText={store.updateNewPostText.bind(store)
-                         }/>, document.getElementById('root'));
+let _callSubscriber = () => {
+
+    ReactDOM.render(<App store={store} />, document.getElementById('root'));
 };
 
-rerenderEntireThree();
+_callSubscriber();
 
-subscribe(rerenderEntireThree)
+store.subscribe(_callSubscriber);
 
 
 // переносим обратно в index.tsx все( export удалить)

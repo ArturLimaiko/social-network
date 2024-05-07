@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {postsType, state} from "../../../Redux/state";
+import {postsType} from "../../../Redux/state";
 
 export type MyPostPropsType = {
     posts: postsType[]
@@ -38,7 +38,7 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNew
         <div className={s.postsBlock}>
             <h3> My posts </h3>
             <div>
-                <textarea ref={refElement} onChange={onPostChange} value={newPostText}/>
+                <textarea placeholder={"My Post text"} ref={refElement} onChange={onPostChange} value={newPostText}/>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>
