@@ -5,10 +5,8 @@ import App from "./App";
 import {store} from "./Redux/state";
 
 let _callSubscriber = () => {
-
     ReactDOM.render(<App store={store} />, document.getElementById('root'));
 };
 
-_callSubscriber();
-
 store.subscribe(_callSubscriber);
+_callSubscriber();

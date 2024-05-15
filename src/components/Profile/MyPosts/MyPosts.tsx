@@ -1,17 +1,14 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {postsType} from "../../../Redux/state";
+import {ActionsTypes, postsType} from "../../../Redux/state";
 
 export type MyPostPropsType = {
     posts: postsType[]
-    addMessage: (newPostMessage: string) => void
-    updateNewPostText: (newText: string) => void
-    newPostText: string
-
+    dispatch:( action: ActionsTypes) => void
 }
 
-export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNewPostText,newPostText}) => {
+export const MyPosts: React.FC<MyPostPropsType> = ({posts,dispatch}) => {
     const postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
     let refElement = React.createRef<HTMLTextAreaElement>()
 
@@ -22,7 +19,8 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNew
     const addPost = () => {
         if (refElement.current) {
             let text = refElement.current.value
-            addMessage(text)
+            // addMessage(text)
+             dispatch({ type: 'ADD-POST',newPostText: text })
         }
     }
 
@@ -30,7 +28,8 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNew
     const onPostChange = () => {
         if (refElement.current) {
             let text = refElement.current.value;
-            updateNewPostText(text);
+            //updateNewPostText(text);
+            dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: text})
         }
     }
 
@@ -38,7 +37,7 @@ export const MyPosts: React.FC<MyPostPropsType> = ({posts, addMessage, updateNew
         <div className={s.postsBlock}>
             <h3> My posts </h3>
             <div>
-                <textarea placeholder={"My Post text"} ref={refElement} onChange={onPostChange} value={newPostText}/>
+                <textarea placeholder={"My Post text"} ref={refElement} onChange={onPostChange}/>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>

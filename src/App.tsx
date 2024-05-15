@@ -8,14 +8,14 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StateType, StoreType} from "./Redux/state";
+import {StoreType} from "./Redux/state";
 
 export type PropsType = {
     store: StoreType
 }
 
-const App:React.FC<PropsType> = ({store}: PropsType) =>  {
-const state = store.getState();
+const App: React.FC<PropsType> = ({store}: PropsType) => {
+    const state = store.getState();
     return (
         // BrowserRouter - компонент который контролит страницы(переход по ссылкам) . по этому оборачиваем все им
         <BrowserRouter>
@@ -27,10 +27,10 @@ const state = store.getState();
                     <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs}
                                                                   message={state.DialogsPage.message}/>}/>
                     <Route path='/profile'
-                           render={() => <Profile posts={state.ProfilePage.posts}
-                                                  addMessage={store.addMessage.bind(store)}
-                                                  updateNewPostText={store.updateNewPostText.bind(store)}
-                                                  newPostText={state.ProfilePage.newPostText}/>}/>
+                           render={() => <Profile
+                               dispatch={store.dispatch.bind(store)}
+                               posts={state.ProfilePage.posts}
+                           />}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>
