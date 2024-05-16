@@ -6,13 +6,14 @@ import {ActionsTypes, postsType} from "../../Redux/state";
 type ProfilePropsType = {
     posts: postsType[]
     dispatch:( action: ActionsTypes) => void
+    newPostText: string
 }
 
-export const Profile: React.FC<ProfilePropsType> = ({posts,dispatch}) => {
+export const Profile: React.FC<ProfilePropsType> = ({posts,dispatch,newPostText}) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts dispatch={dispatch} posts={posts} />
+            <MyPosts dispatch={dispatch} posts={posts} newPostText={newPostText}/>
         </div>
     );
 };

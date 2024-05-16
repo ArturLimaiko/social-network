@@ -50,7 +50,8 @@ export type ActionsTypes = AddMessageActionType | updateNewPostTextActionType
 
 //создадим типы для каждого action
 export type AddMessageActionType = {
-    type : 'ADD-POST', newPostText: string
+    type : 'ADD-POST',
+    //newPostText: string
 }
 export type updateNewPostTextActionType = {
     type : 'UPDATE-NEW-POST-TEXT', newText: string
@@ -127,7 +128,7 @@ export let store: StoreType = {
     // 4 в index перекинуть dispatch ={action.store.bind(store)}
      dispatch (action) {
         if(action.type === 'ADD-POST') {
-            let newMessage = {id: 12, message: action.newPostText, likesCount: 0}
+            let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
             this._state.ProfilePage.posts.push(newMessage);
             this._state.ProfilePage.newPostText = '';
             this._callSubscriber();

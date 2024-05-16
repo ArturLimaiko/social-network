@@ -26,11 +26,9 @@ const App: React.FC<PropsType> = ({store}: PropsType) => {
                     {/*Route следит за страницей например dialogs,profile и тд*/}
                     <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs}
                                                                   message={state.DialogsPage.message}/>}/>
-                    <Route path='/profile'
-                           render={() => <Profile
-                               dispatch={store.dispatch.bind(store)}
-                               posts={state.ProfilePage.posts}
-                           />}/>
+                    <Route path='/profile' render={() => <Profile dispatch={store.dispatch.bind(store)}
+                                                                  newPostText={state.ProfilePage.newPostText}
+                                                                  posts={state.ProfilePage.posts}/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>
