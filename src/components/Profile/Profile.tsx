@@ -13,7 +13,7 @@ export const Profile: React.FC<ProfilePropsType> = ({posts,dispatch,newPostText}
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts dispatch={dispatch} posts={posts} newPostText={newPostText}/>
+            <MyPosts dispatch={dispatch} posts={posts} newPostText={newPostText} />
         </div>
     );
 };

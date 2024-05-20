@@ -1,3 +1,5 @@
+import {ChangeEvent} from "react";
+
 export type dialogsType = {
     name: string
     id: number
@@ -40,22 +42,11 @@ export type StoreType = {
     subscribe: (observer: () => void) => void
     getState: () => StateType
 
-    // updateNewPostText: (newText: string) => void
-    // addMessage: () => void
-
-    dispatch : (action: ActionsTypes ) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
-export type ActionsTypes = AddMessageActionType | updateNewPostTextActionType
-
-//создадим типы для каждого action
-export type AddMessageActionType = {
-    type : 'ADD-POST',
-    //newPostText: string
-}
-export type updateNewPostTextActionType = {
-    type : 'UPDATE-NEW-POST-TEXT', newText: string
-}
+//создадим типы для каждого action - тип создаем автоматически, говорим определи возвращаемое значение функции и ее тип
+export type ActionsTypes = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateNewPostTextActionCreator>
 
 export let store: StoreType = {
     _state: {
@@ -100,7 +91,7 @@ export let store: StoreType = {
             ]
         },
     },
-    getState () {
+    getState() {
         return this._state
     },
 
@@ -111,33 +102,25 @@ export let store: StoreType = {
         this._callSubscriber = observer;
     },
 
-    // addMessage() {
-    //     let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
-    //     this._state.ProfilePage.posts.push(newMessage);
-    //     this._state.ProfilePage.newPostText = '';
-    //     this._callSubscriber();
-    // },
-    // updateNewPostText(newText: string) {
-    //     this._state.ProfilePage.newPostText = newText
-    //     this._callSubscriber()
-    // },
-
-    // 1 введем тут метод dispatch() {}
-    // 2 закинем в dispatch  updateNewPostText и addMessage
-    // 3 передать в () объект action
-    // 4 в index перекинуть dispatch ={action.store.bind(store)}
-     dispatch (action) {
-        if(action.type === 'ADD-POST') {
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
             let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
             this._state.ProfilePage.posts.push(newMessage);
             this._state.ProfilePage.newPostText = '';
             this._callSubscriber();
-        } else if ( action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.ProfilePage.newPostText = action.newText
             this._callSubscriber()
         }
-     }
+    }
+}
 
+export const addPostActionCreator = () => {
+    return {type: 'ADD-POST'} as  const // говорим что воспринимай этот весь объект как константу
+}
+
+export const updateNewPostTextActionCreator = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    return {type: 'UPDATE-NEW-POST-TEXT', newText: event.currentTarget.value} as  const
 }
 
 
