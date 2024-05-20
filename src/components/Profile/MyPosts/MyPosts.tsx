@@ -7,8 +7,6 @@ export type MyPostPropsType = {
     posts: postsType[]
     dispatch:(action: ActionsTypes) => void
     newPostText: string
-    // addPostActionCreator: () => void
-    // updateNewPostTextActionCreator: (event: ChangeEvent<HTMLTextAreaElement>)=> void
 }
 
 // 1 создадим функцию addPostActionCreator которая будет возвращать return { action type: 'ADD-POST'}
@@ -18,17 +16,8 @@ export type MyPostPropsType = {
 // 5 создать константы ADD_POST И UPDATE_NEW_POST_TEXT и присвоить им соответствующие названия
 export const MyPosts: React.FC<MyPostPropsType> = ({posts,dispatch,newPostText}) => {
     const postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
-    //refElement создается с помощью React.createRef<HTMLTextAreaElement>(). Это создает объект ссылки, который может быть использован для получения доступа к DOM-узлу элемента <textarea>, на который ссылается этот ref.
-    // refElement.current является способом доступа к реальному DOM-узлу, на который ссылается ваша ссылка (refElement). Когда компонент, содержащий этот ref, монтируется в DOM, React автоматически связывает созданный ref с соответствующим DOM-узлом. Свойство current ref позволяет вам получить доступ к этому DOM-узлу напрямую.
-    //let refElement = React.createRef<HTMLTextAreaElement>()
-
 
     const addPost = () => {
-        // if (refElement.current) {
-        //     let text = refElement.current.value
-        //     // addMessage(text)
-        //      dispatch({ type: 'ADD-POST',newPostText: text })
-        // }
         dispatch(addPostActionCreator())
     }
 
