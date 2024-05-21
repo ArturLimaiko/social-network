@@ -1,22 +1,36 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Messages} from "./Messages/Messages";
-import {dialogsType, messageType} from "../../Redux/state";
+import {
+    ActionsTypes,
+    dialogsType,
+    messageType,
+    sendMessageCreator,
+    StoreType,
+    updateNewMessageBodyCreator
+} from "../../Redux/state";
+
 
 type DialogsPropsType = {
-    dialogs: dialogsType[]
-    message: messageType[]
+    store: StoreType
+    dispatch: (action: ActionsTypes) => void
 }
 
-export const Dialogs: React.FC<DialogsPropsType> = ({dialogs, message}) => {
-    const dialogsElements = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    const messagesElements = message.map(m => <Messages message={m.message}/>)
+export const Dialogs: React.FC<DialogsPropsType> = ({store, dispatch}) => {
+    const dialogsElements = store._state.DialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    const messagesElements = store._state.DialogsPage.message.map(m => <Messages message={m.message}/>)
+    const newMessageBody = store._state.DialogsPage.newMessageBody
 
-    let refMessage = React.createRef<HTMLTextAreaElement>()
+    //let refMessage = React.createRef<HTMLTextAreaElement>()
     const callBackAddMessage = () => {
-        let message = refMessage.current?.value
-        alert(message)
+        // let message = refMessage.current?.value
+        // alert(message)
+        dispatch(sendMessageCreator())
+    }
+
+    const onSendMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(updateNewMessageBodyCreator(e))
     }
 
     return (
@@ -28,10 +42,11 @@ export const Dialogs: React.FC<DialogsPropsType> = ({dialogs, message}) => {
                 </div>
                 <div className={s.messages}>
                     {messagesElements}
+                    <div><textarea placeholder='Enter you message' value={newMessageBody}
+                                   onChange={onSendMessageChange}></textarea></div>
                     <div>
-                        <textarea ref={refMessage}></textarea>
+                        <button onClick={callBackAddMessage}>Add Message</button>
                     </div>
-                    <button onClick={callBackAddMessage}>Add Message</button>
 
                 </div>
             </div>

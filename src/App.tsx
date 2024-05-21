@@ -8,12 +8,12 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StoreType} from "./Redux/state";
+import {StoreType, updateNewMessageBodyCreator} from "./Redux/state";
 
 export type PropsType = {
     store: StoreType
 }
-
+//store - пропс , содержит кучу данных , которые потом передаем в другие компоненты как атрибуты передаем
 const App: React.FC<PropsType> = ({store}: PropsType) => {
     const state = store.getState();
     return (
@@ -23,9 +23,10 @@ const App: React.FC<PropsType> = ({store}: PropsType) => {
                 <Header/>
                 <Navbar friends={state.SideBar.friends}/>
                 <div className='app-wrapper-content'>
-                    {/*Route следит за страницей например dialogs,profile и тд*/}
-                    <Route path='/dialogs' render={() => <Dialogs dialogs={state.DialogsPage.dialogs}
-                                                                  message={state.DialogsPage.message}/>}/>
+                    {/*Route следит за страницей(url) например dialogs,profile и тд*/}
+                    {/*внутри render обычный callback функция, которую вызовет компонента когда увидит что с ней что то произойдет*/}
+                    <Route path='/dialogs' render={() => <Dialogs store={store}
+                                                                  dispatch={store.dispatch.bind(store)}/>}/>
                     <Route path='/profile' render={() => <Profile dispatch={store.dispatch.bind(store)}
                                                                   newPostText={state.ProfilePage.newPostText}
                                                                   posts={state.ProfilePage.posts}/>}/>

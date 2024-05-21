@@ -1,4 +1,5 @@
 import {ChangeEvent} from "react";
+import {actionTypes} from "redux-form";
 
 export type dialogsType = {
     name: string
@@ -21,6 +22,7 @@ export type friendsType = {
 export type DialogsPageType = {
     dialogs: dialogsType[]
     message: messageType[]
+    newMessageBody: string
 }
 export type ProfilePageType = {
     posts: postsType[]
@@ -46,7 +48,10 @@ export type StoreType = {
 }
 
 //создадим типы для каждого action - тип создаем автоматически, говорим определи возвращаемое значение функции и ее тип
-export type ActionsTypes = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateNewPostTextActionCreator>
+export type ActionsTypes = ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof updateNewPostTextActionCreator>
+    | ReturnType<typeof updateNewMessageBodyCreator>
+    | ReturnType<typeof sendMessageCreator>
 
 export let store: StoreType = {
     _state: {
@@ -66,7 +71,8 @@ export let store: StoreType = {
                 {id: 4, message: 'What you doing in wednesday'},
                 {id: 5, message: 'What are you doing?'},
                 {id: 6, message: 'How are You??'},
-            ]
+            ],
+            newMessageBody: ''
         },
         ProfilePage: {
             posts: [
@@ -111,16 +117,29 @@ export let store: StoreType = {
         } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.ProfilePage.newPostText = action.newText
             this._callSubscriber()
+        } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
+            this._state.DialogsPage.newMessageBody = action.body
+            this._callSubscriber()
+        } else if (action.type === 'SEND-MESSAGE') {
+            let body = this._state.DialogsPage.newMessageBody
+            this._state.DialogsPage.newMessageBody = ''
+            this._state.DialogsPage.message.push({id: 7, message: body})
+            this._callSubscriber()
         }
     }
 }
 
 export const addPostActionCreator = () => {
-    return {type: 'ADD-POST'} as  const // говорим что воспринимай этот весь объект как константу
+    return {type: 'ADD-POST'} as const // говорим что воспринимай этот весь объект как константу
 }
-
+export const updateNewMessageBodyCreator = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    return {type: 'UPDATE-NEW-MESSAGE-BODY',body: e.currentTarget.value} as const
+}
+export const sendMessageCreator = () => {
+    return {type: 'SEND-MESSAGE'} as const
+}
 export const updateNewPostTextActionCreator = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    return {type: 'UPDATE-NEW-POST-TEXT', newText: event.currentTarget.value} as  const
+    return {type: 'UPDATE-NEW-POST-TEXT', newText: event.currentTarget.value} as const
 }
 
 
@@ -138,3 +157,30 @@ export const updateNewPostTextActionCreator = (event: ChangeEvent<HTMLTextAreaEl
 // заменим имя функции rerenderEntireThree на _callSubscriber
 // далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
 // так же проделать с другой функцией
+
+// lesson 40
+// 1 создаем  в DialogsPage  объект который содержит строку newMessageBody: ''
+// 2 идем в dispatch создаем новый action типа 'UPDATE-NEW-MESSAGE-BODY'
+// 3 добавляем через if else
+// 4 далее у этого this._state.DialogsPage.newMessageBody  = action.body // тут говорим что теперь ты равен тому что придет из вне вместе с этим action
+// 5 теперь по скольку state изменился об этом кто то должен знать и мы таким образом - вызываем this._callSubscriber = (this._state);
+// _callSubscriber вызываем и сообщаем об изменившимся state
+// 6 'UPDATE-NEW-MESSAGE-BODY' это только пользователь вводит сообщение . далее он говорит отправить и нам поступает еще 1 action type 'SEND-MESSAGE'
+// 7 создаем его SEND-MESSAGE и внутри условия мы должны взять то что записано в  this._state.DialogsPage.newMessageBody
+// 8 присвоим отдельную переменную let body = this._state.DialogsPage.newMessageBody
+// 9 затем this._state.DialogsPage.newMessageBody = '' зануляем
+// 10 потом push'им в массив message  - this._state.DialogsPage.message.push({id: 7, message: body'},)
+// 11 снова вызываем и сообщаем об изменениях this._callSubscriber = (this._state);
+// 12 создаем ActionCreator sendMessageCreator и updateNewMessageBodyCreator
+// export const sendMessageCreator = () => { type : 'SEND-MESSAGE'}
+// export const updateNewMessageBodyCreator = (body) => { type : 'UPDATE-NEW-MESSAGE-BODY', body: body}
+// 13 теперь нам осталось отреагировать на эти изменения с помощью компоненты
+// 14 перейдем в Dialogs рядом с messagesElements создаем дивку , добавляем textarea и баттон
+// textarea добавим value={} что бы зафиксировать
+// создадим переменную newMessageBody внутри компоненты dialogs и присвоим ей  значение из state.DialogsPage.newMessageBody
+// создадим функцию колбек onSendMessageClick ее
+// newMessageBody отдадим в value - но что бы newMessageBody менялось , нам нужно добавить событие onChange
+// 15 внутри добавим еще  onChange ={тут передаем функцию onSendMessageChange}
+// onSendMessageChange функция которая которая принимает   event и внутри пишем let body = currentTarger.value
+// далее store.dispatch(updateNewMessageBodyCreator(body))
+// dispatch в функцию callBackAddMessage  sendMessageCreator()

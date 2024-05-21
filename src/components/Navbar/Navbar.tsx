@@ -17,6 +17,7 @@ export const Navbar: React.FC<NavbarType> = ({friends}) => {
     return (
         <nav className={s.nav}>
             <li className={s.nav__list}>
+                {/*NavLink - используются что бы происходила смена в браузере url без перезагрузки страницы*/}
                 <NavLink to={'/profile'}>Profile</NavLink>
             </li>
 
