@@ -28,7 +28,6 @@ export const Dialogs: React.FC<DialogsPropsType> = ({store, dispatch}) => {
         // alert(message)
         dispatch(sendMessageCreator())
     }
-
     const onSendMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         dispatch(updateNewMessageBodyCreator(e))
     }
@@ -42,8 +41,10 @@ export const Dialogs: React.FC<DialogsPropsType> = ({store, dispatch}) => {
                 </div>
                 <div className={s.messages}>
                     {messagesElements}
-                    <div><textarea placeholder='Enter you message' value={newMessageBody}
-                                   onChange={onSendMessageChange}></textarea></div>
+                    <div><textarea placeholder='Enter you message'
+                                  value={newMessageBody}
+                                  onChange={onSendMessageChange}>
+                            </textarea></div>
                     <div>
                         <button onClick={callBackAddMessage}>Add Message</button>
                     </div>

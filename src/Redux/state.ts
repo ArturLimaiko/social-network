@@ -133,7 +133,7 @@ export const addPostActionCreator = () => {
     return {type: 'ADD-POST'} as const // говорим что воспринимай этот весь объект как константу
 }
 export const updateNewMessageBodyCreator = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    return {type: 'UPDATE-NEW-MESSAGE-BODY',body: e.currentTarget.value} as const
+    return {type: 'UPDATE-NEW-MESSAGE-BODY', body: e.currentTarget.value} as const
 }
 export const sendMessageCreator = () => {
     return {type: 'SEND-MESSAGE'} as const
