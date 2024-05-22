@@ -1,5 +1,5 @@
-import {ChangeEvent} from "react";
-import {actionTypes} from "redux-form";
+import {dialogsReducer, sendMessageCreator, updateNewMessageBodyCreator} from "./DialogsReducer";
+import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./ProfileReducer";
 
 export type dialogsType = {
     name: string
@@ -109,39 +109,28 @@ export let store: StoreType = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
-            this._state.ProfilePage.posts.push(newMessage);
-            this._state.ProfilePage.newPostText = '';
-            this._callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.ProfilePage.newPostText = action.newText
-            this._callSubscriber()
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-            this._state.DialogsPage.newMessageBody = action.body
-            this._callSubscriber()
-        } else if (action.type === 'SEND-MESSAGE') {
-            let body = this._state.DialogsPage.newMessageBody
-            this._state.DialogsPage.newMessageBody = ''
-            this._state.DialogsPage.message.push({id: 7, message: body})
-            this._callSubscriber()
-        }
+        // if (action.type === 'ADD-POST') {
+        //     let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
+        //     this._state.ProfilePage.posts.push(newMessage);
+        //     this._state.ProfilePage.newPostText = '';
+        //     this._callSubscriber();
+        // } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        //     this._state.ProfilePage.newPostText = action.newText
+        //     this._callSubscriber()
+        // } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
+        //     this._state.DialogsPage.newMessageBody = action.body
+        //     this._callSubscriber()
+        // } else if (action.type === 'SEND-MESSAGE') {
+        //     let body = this._state.DialogsPage.newMessageBody
+        //     this._state.DialogsPage.newMessageBody = ''
+        //     this._state.DialogsPage.message.push({id: 7, message: body})
+        //     this._callSubscriber()
+        // }
+        profileReducer(this._state.ProfilePage, action)
+        dialogsReducer(this._state.DialogsPage, action)
+        this._callSubscriber()
     }
 }
-
-export const addPostActionCreator = () => {
-    return {type: 'ADD-POST'} as const // говорим что воспринимай этот весь объект как константу
-}
-export const updateNewMessageBodyCreator = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    return {type: 'UPDATE-NEW-MESSAGE-BODY', body: e.currentTarget.value} as const
-}
-export const sendMessageCreator = () => {
-    return {type: 'SEND-MESSAGE'} as const
-}
-export const updateNewPostTextActionCreator = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    return {type: 'UPDATE-NEW-POST-TEXT', newText: event.currentTarget.value} as const
-}
-
 
 //lesson 37 store-state
 // создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
