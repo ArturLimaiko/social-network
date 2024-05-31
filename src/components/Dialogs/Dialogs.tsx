@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItem/DialogItem";
 import {Messages} from "./Messages/Messages";
-import {ActionsTypes, StoreType} from "../../Redux/state";
+import {ActionsTypes, StoreType} from "../../Redux/store";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../Redux/DialogsReducer";
 
 
@@ -36,8 +36,8 @@ export const Dialogs: React.FC<DialogsPropsType> = ({store, dispatch}) => {
                 <div className={s.messages}>
                     {messagesElements}
                     <div><textarea placeholder='Enter you message'
-                                  value={newMessageBody}
-                                  onChange={onSendMessageChange}>
+                                   value={newMessageBody}
+                                   onChange={onSendMessageChange}>
                             </textarea></div>
                     <div>
                         <button onClick={callBackAddMessage}>Add Message</button>

@@ -1,5 +1,6 @@
 import {dialogsReducer, sendMessageCreator, updateNewMessageBodyCreator} from "./DialogsReducer";
 import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./ProfileReducer";
+import {sideBarReducer} from "./SideBarReducer";
 
 export type dialogsType = {
     name: string
@@ -109,45 +110,49 @@ export let store: StoreType = {
     },
 
     dispatch(action) {
-        // if (action.type === 'ADD-POST') {
-        //     let newMessage = {id: 12, message: this._state.ProfilePage.newPostText, likesCount: 0}
-        //     this._state.ProfilePage.posts.push(newMessage);
-        //     this._state.ProfilePage.newPostText = '';
-        //     this._callSubscriber();
-        // } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-        //     this._state.ProfilePage.newPostText = action.newText
-        //     this._callSubscriber()
-        // } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-        //     this._state.DialogsPage.newMessageBody = action.body
-        //     this._callSubscriber()
-        // } else if (action.type === 'SEND-MESSAGE') {
-        //     let body = this._state.DialogsPage.newMessageBody
-        //     this._state.DialogsPage.newMessageBody = ''
-        //     this._state.DialogsPage.message.push({id: 7, message: body})
-        //     this._callSubscriber()
-        // }
         profileReducer(this._state.ProfilePage, action)
         dialogsReducer(this._state.DialogsPage, action)
+        sideBarReducer(this._state.SideBar, action)
         this._callSubscriber()
     }
 }
 
 
+//Redux
+// 1 проинсталить редакс
+// 2 добавить файлик Redux.store.ts state - не удалять
+// 3 let store = createStore() создадим стор и импортнем его из редакса
+// 4 импортим наш стор из редакса в index
+// 5 стору нужны редьюсеры - и нам нужно склеить эти редьюсеры
+// вызовем функцию combineReducers ({}) и отдидим ее переменной let reducers
+// 6 в combineReducers передадим все 3 редьюсера ( как ключ - значение)
+// 7 далее редьюсеры передать в createStore()
+// 8 каждый редьюсер проинициализируем изначальным значением что бы не падала ошибка undefined
+// объявим перед редьюсером initialState = отдадим ему соответствующий объект ( диалоги если то диалоги и тд)
+// и в параметрах где state - отдадим ему initialState
+// сайдбару пока отдадим пустой initialState
+//
+//
+//
+//
 
-//lesson 37 store-state
-// создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
-//  так же state делаем приватным _state
-// rerenderEntireThree,addMessage,updateNewPostText сделаем методом  store
-// не забудем написать export store,в index экспортнем store + поправим типизацию в компоненте App
-// напряму вот так нельзя обращаться - <App state={store._state} потому что он является приватный метод стора , к нему
-// по правилам нельзя так обращаться. для этого создадим спец метод который будет возвращать нам state
-// getState() { return _state} и в App вместо state={store._state} пишем state={store.getState()}
-// + там где метод подсвечивает ошибку нужно заменить на return this._state ( ругается потому что такое переменной нет,
-// так как _state это свойство объекта (либо методу) store, и к свойству мы должны обращаться через this
-// на этом примере нужно везде добавить this.
-// заменим имя функции rerenderEntireThree на _callSubscriber
-// далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
-// так же проделать с другой функцией
+
+// lesson 41
+// action объект у которого есть свойство type
+// reducer чистая функция которая принимает state и action если нужно применяет этот action к этому state и возвращает новый new state либо возвращает не измененный state если он не подошел
+// создадим под каждый подобъект свой reducer
+// 1 создать функцию таким же именем  она принимает 2 параметра state & action и возвращает state
+// 2 переносим внутренности из state для каждого соответствующего action
+// 3 избавимся внутри от this и ProfilePage т.к state и есть тот ProfilePage(приходит к нам под именем state)
+//4  убираем callsubscriber() потому что это Reducer - его задача маленькая - получает state & action - преобразовывает и возвращает.
+//  либо может не преобразовать.
+// 5 export Reducer в state
+// 6 в dispatch передадим новые Reducer . их вызываем и отдаем часть - то есть то что ему нужно
+// например this._state.ProfilePage а вторым параметром action
+// 7 далее не забудем после преобразования веток стейта редьюсером, уведомить подписчика - в конце добавляем this._callSubscriber()
+// 8 преобразуем наши Reducer конструкцией switch(action.type) говорим по какому ключу мы переключаем(type) . и далее case {внутри сами кейсы например ADD-POST}
+// 9 после каждого кейса пропишет return state и return по умолчанию сделать  default : return state
+// 10 перенесем actionCreator к Reducer
 
 // lesson 40
 // 1 создаем  в DialogsPage  объект который содержит строку newMessageBody: ''
@@ -176,19 +181,19 @@ export let store: StoreType = {
 // далее store.dispatch(updateNewMessageBodyCreator(body))
 // dispatch в функцию callBackAddMessage  sendMessageCreator()
 
-// lesson 41
-// action объект у которого есть свойство type
-// reducer чистая функция которая принимает state и action если нужно применяет этот action к этому state и возвращает новый new state либо возвращает не измененный state если он не подошел
-// создадим под каждый подобъект свой reducer
-// 1 создать функцию таким же именем  она принимает 2 параметра state & action и возвращает state
-// 2 переносим внутренности из state для каждого соответствующего action
-// 3 избавимся внутри от this и ProfilePage т.к state и есть тот ProfilePage(приходит к нам под именем state)
-//4  убираем callsubscriber() потому что это Reducer - его задача маленькая - получает state & action - преобразовывает и возвращает.
-//  либо может не преобразовать.
-// 5 export Reducer в state
-// 6 в dispatch передадим новые Reducer . их вызываем и отдаем часть - то есть то что ему нужно
-// например this._state.ProfilePage а вторым параметром action
-// 7 далее не забудем после преобразования веток стейта редьюсером, уведомить подписчика - в конце добавляем this._callSubscriber()
-// 8 преобразуем наши Reducer конструкцией switch(action.type) говорим по какому ключу мы переключаем(type) . и далее case {внутри сами кейсы например ADD-POST}
-// 9 после каждого кейса пропишет return state и return по умолчанию сделать  default : return state
-// 10 перенесем actionCreator к Reducer
+//lesson 37 store-state
+// создаем переменную store и в нее кладем весь наш стейст state( state будет являться свойством),
+//  так же state делаем приватным _state
+// rerenderEntireThree,addMessage,updateNewPostText сделаем методом  store
+// не забудем написать export store,в index экспортнем store + поправим типизацию в компоненте App
+// напряму вот так нельзя обращаться - <App state={store._state} потому что он является приватный метод стора , к нему
+// по правилам нельзя так обращаться. для этого создадим спец метод который будет возвращать нам state
+// getState() { return _state} и в App вместо state={store._state} пишем state={store.getState()}
+// + там где метод подсвечивает ошибку нужно заменить на return this._state ( ругается потому что такое переменной нет,
+// так как _state это свойство объекта (либо методу) store, и к свойству мы должны обращаться через this
+// на этом примере нужно везде добавить this.
+// заменим имя функции rerenderEntireThree на _callSubscriber
+// далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
+// так же проделать с другой функцией
+
+
