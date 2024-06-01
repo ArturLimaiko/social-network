@@ -37,7 +37,6 @@ export type StateType = {
     ProfilePage: ProfilePageType
     SideBar: SideBarType
 }
-
 export type StoreType = {
     _state: StateType
     _callSubscriber: () => void
@@ -118,7 +117,25 @@ export let store: StoreType = {
 }
 
 
-//Redux
+
+// lesson 43 Container Components
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+// lesson 42 Redux
 // 1 проинсталить редакс
 // 2 добавить файлик Redux.store.ts state - не удалять
 // 3 let store = createStore() создадим стор и импортнем его из редакса
@@ -136,8 +153,7 @@ export let store: StoreType = {
 //
 //
 
-
-// lesson 41
+// lesson 41 Reducer
 // action объект у которого есть свойство type
 // reducer чистая функция которая принимает state и action если нужно применяет этот action к этому state и возвращает новый new state либо возвращает не измененный state если он не подошел
 // создадим под каждый подобъект свой reducer
@@ -195,5 +211,3 @@ export let store: StoreType = {
 // заменим имя функции rerenderEntireThree на _callSubscriber
 // далее => в addMessage={store.addMessage} у нас упадет ошибка , нам нужно забиндить этот метод методом .bind(store)
 // так же проделать с другой функцией
-
-
